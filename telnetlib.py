@@ -452,7 +452,7 @@ class Telnet:
                         if self.option_callback:
                             # Callback is supposed to look into
                             # the sbdataq
-                            self.option_callback(self.sock, c, NOOPT)
+                            self.option_callback(self, c, NOOPT)
                         else:
                             # We can't offer automatic processing of
                             # suboptions. Alas, we should not get any
@@ -466,14 +466,14 @@ class Telnet:
                         self.msg('IAC %s %d',
                             cmd == DO and 'DO' or 'DONT', ord(opt))
                         if self.option_callback:
-                            self.option_callback(self.sock, cmd, opt)
+                            self.option_callback(self, cmd, opt)
                         else:
                             self.sock.sendall(IAC + WONT + opt)
                     elif cmd in (WILL, WONT):
                         self.msg('IAC %s %d',
                             cmd == WILL and 'WILL' or 'WONT', ord(opt))
                         if self.option_callback:
-                            self.option_callback(self.sock, cmd, opt)
+                            self.option_callback(self, cmd, opt)
                         else:
                             self.sock.sendall(IAC + DONT + opt)
         except EOFError: # raised by self.rawq_getchar()
