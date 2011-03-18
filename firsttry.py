@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import telnetlib 
+from CompressedTelnet import CompressedTelnet
 import thread
-from callback import *
 
 def inputter(conn):
     text = ""
@@ -29,8 +28,7 @@ def outputter(conn):
 host = "discworld.atuin.net"
 port = 4242
 
-session = telnetlib.Telnet()
-session.set_option_negotiation_callback(tcallback)
+session = CompressedTelnet()
 session.open(host, port)
 
 thid = thread.start_new_thread(outputter, (session,))
